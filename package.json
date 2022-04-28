@@ -1,0 +1,23 @@
+{
+  "name": "create-esbuild-react-app",
+  "version": "0.1.0",
+  "description": "Create a React app that compiles with esbuild",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeRadu/create-esbuild-react-app.git"
+  },
+  "keywords": [
+    "React",
+    "esbuild"
+  ],
+  "author": "Radu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CodeRadu/create-esbuild-react-app/issues"
+  },
+  "homepage": "https://github.com/CodeRadu/create-esbuild-react-app#readme"
+}
