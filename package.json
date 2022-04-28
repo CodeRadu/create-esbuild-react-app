@@ -1,6 +1,6 @@
 {
   "name": "create-esbuild-react-app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Create a React app that compiles with esbuild",
   "main": "dist/index.js",
   "scripts": {
