@@ -39,13 +39,13 @@ export default function (args: string[]) {
 
   server.use((req, res) => {
     if (req.url == '/') {
-      res.sendFile(join(process.cwd(), 'dev.html'))
+      res.sendFile(join(__dirname, '../../', 'dev.html'))
       return
     }
     if (isFile(req.url)) {
       res.sendFile(join(process.cwd(), '.cer', req.url))
     } else {
-      res.sendFile(join(process.cwd(), 'dev.html'))
+      res.sendFile(join(__dirname, '../../', 'dev.html'))
     }
   })
 
@@ -65,6 +65,8 @@ export default function (args: string[]) {
   watch('./src', { recursive: true }, () => {
     console.clear()
     console.log('File change detected. Rebuilding app')
+    if (existsSync('./dev.html'))
+      console.warn('Warn: dev.html is no longer used by cer. You can remove it')
     build(
       () => {
         setTimeout(() => {
