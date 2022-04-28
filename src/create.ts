@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 import { readdirSync } from 'fs'
 import { copySync } from 'fs-extra'
 
