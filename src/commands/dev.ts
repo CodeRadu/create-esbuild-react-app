@@ -17,6 +17,7 @@ function build(success: Function, fail: Function) {
       allowOverwrite: true,
       outfile: './.cer/index.js',
       platform: 'browser',
+      logLevel: 'warning',
     })
     .then(() => {
       success()
@@ -55,9 +56,7 @@ export default function (args: string[]) {
     () => {
       console.log('App built')
     },
-    (e: string) => {
-      console.log('Error building app', e)
-    }
+    (e: string) => {}
   )
   if (existsSync('./public')) {
     copy('./public', './.cer')
@@ -74,7 +73,7 @@ export default function (args: string[]) {
         }, 50)
       },
       (e: string) => {
-        console.log('Error building app', e)
+        io.emit('error', e)
       }
     )
   })

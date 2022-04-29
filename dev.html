@@ -17,6 +17,11 @@
       socket.on('reload', () => {
         window.location.reload()
       })
+      socket.on('error', (e) => {
+        console.error(e)
+        const root = document.getElementById('root')
+        root.innerHTML = `<font color="red">Build errors have ocurred. Please check the console</font>`
+      })
     </script>
   </body>
 </html>
