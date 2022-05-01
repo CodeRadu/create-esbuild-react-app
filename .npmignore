@@ -1,4 +1,4 @@
-src
-.github
-tsconfig.json
-docs
+./src
+./.github
+./tsconfig.json
+./docs
