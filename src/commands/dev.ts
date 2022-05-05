@@ -1,5 +1,6 @@
 import esbuild from 'esbuild'
-import { existsSync, watch } from 'fs'
+import { existsSync } from 'fs'
+import chokidar from 'chokidar'
 import { copy } from 'fs-extra'
 import express from 'express'
 import { Server } from 'socket.io'
@@ -61,9 +62,10 @@ export default function (args: string[]) {
   if (existsSync('./public')) {
     copy('./public', './.cer')
   }
-  watch('./src', { recursive: true }, () => {
+  chokidar.watch('./src').on('all', () => {
     console.clear()
     console.log('File change detected. Rebuilding app')
+    console.log(`Url: http://localhost:${process.env.PORT || 3000}`)
     if (existsSync('./dev.html'))
       console.warn('Warn: dev.html is no longer used by cer. You can remove it')
     build(
