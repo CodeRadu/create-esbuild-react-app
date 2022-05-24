@@ -1,0 +1,22 @@
+{
+  "name": "react-esbuild-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cer-scripts build",
+    "dev": "cer-scripts dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "create-esbuild-react-app": "^0.1.7"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.8",
+    "@types/react-dom": "^18.0.0"
+  }
+}
