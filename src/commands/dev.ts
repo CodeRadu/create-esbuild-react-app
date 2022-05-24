@@ -81,5 +81,5 @@ export default function (args: string[]) {
       }
     )
   })
-  httpServer.listen(process.env.PORT || 3000, "0.0.0.0")
+  httpServer.listen(process.env.PORT || 3000)
 }
