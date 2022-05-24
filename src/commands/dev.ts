@@ -1,7 +1,7 @@
 import esbuild from 'esbuild'
 import { existsSync } from 'fs'
 import chokidar from 'chokidar'
-import { copy } from 'fs-extra'
+import { copy, readFileSync } from 'fs-extra'
 import express from 'express'
 import { Server } from 'socket.io'
 import { join } from 'path'
@@ -10,10 +10,12 @@ const server = express()
 const httpServer = http.createServer(server)
 const io = new Server(httpServer)
 
+const config=JSON.parse(readFileSync('./cer.config.json').toString())
+
 function build(success: Function, fail: Function) {
   esbuild
     .build({
-      entryPoints: ['./src/index.tsx'],
+      entryPoints: [`./src/index.${config.lang}`],
       bundle: true,
       allowOverwrite: true,
       outfile: './.cer/index.js',
