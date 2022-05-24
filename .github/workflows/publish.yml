@@ -17,10 +17,6 @@ jobs:
       - run: npm run build
       - uses: actions/upload-artifact@v3
         with:
-          name: node_modules
-          path: ./node_modules
-      - uses: actions/upload-artifact@v3
-        with:
           name: dist
           path: ./dist
   publish-npm:
@@ -32,10 +28,6 @@ jobs:
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
-      - uses: actions/download-artifact@v3
-        with:
-          name: node_modules
-          path: ./node_modules
       - uses: actions/download-artifact@v3
         with:
           name: dist
