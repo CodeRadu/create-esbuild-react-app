@@ -4,17 +4,21 @@ import { copySync } from 'fs-extra'
 
 let template='default'
 
-if (readdirSync('.').length !== 0) {
-  console.error('Error: CWD is not empty')
-  process.exit(1)
-}
-
 const args = process.argv.slice(2)
 
 for(const arg of args) {
   if(arg=="--template" || arg=="-t"){
     template = args[args.indexOf(arg)+1]
   }
+  if(arg=="--help" || arg=="-h"){
+    console.log("Usage: [--template <template>]")
+    process.exit(0)
+  }
+}
+
+if (readdirSync('.').length !== 0) {
+  console.error('Error: CWD is not empty')
+  process.exit(1)
 }
 
 console.log(`Creating ESbuild React app with ${template} template...`)
