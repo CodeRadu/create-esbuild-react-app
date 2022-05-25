@@ -1,12 +1,14 @@
 import esbuild from 'esbuild'
-import { readdirSync, copyFileSync, existsSync, rmSync } from 'fs'
+import { readdirSync, copyFileSync, existsSync, rmSync, readFileSync } from 'fs'
+
+const config = JSON.parse(readFileSync('./cer.config.json').toString())
 
 export default function (args: string[], success: Function, error: Function) {
   if (existsSync('./dist')) rmSync('./dist', { recursive: true })
   console.log('Building for production...')
   esbuild
     .build({
-      entryPoints: ['./src/index.tsx'],
+      entryPoints: [`./src/index.${config.lang}`],
       bundle: true,
       allowOverwrite: true,
       minify: true,
