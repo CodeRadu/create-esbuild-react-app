@@ -1,11 +1,12 @@
 {
   "name": "create-esbuild-react-app",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "Create a React app that compiles with esbuild",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsc -w",
-    "build": "tsc"
+    "build": "tsc",
+    "act": "bin/act"
   },
   "repository": {
     "type": "git",

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cer-scripts build",
+    "build": "tsc && cer-scripts build",
     "dev": "cer-scripts dev"
   },
   "keywords": [],
@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.8",
-    "@types/react-dom": "^18.0.0"
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^4.7.4"
   }
 }

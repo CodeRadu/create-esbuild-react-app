@@ -11,6 +11,9 @@ function getCurrentVersion() {
   return packageJson.version
 }
 
+export function sleep(time = 1000) {
+  return new Promise((r) => setTimeout(r, time))
+}
 
 function success() {
   console.log('Success')
@@ -27,16 +30,15 @@ if (!commands.includes(`${command}.js`)) {
   process.exit(1)
 }
 
-import(`./commands/${command}.js`).then(async (data) => {
-  await fetch("https://registry.npmjs.com/create-esbuild-react-app").then(res=>res.json()).then((data)=>{
-    const latestVersion=data["dist-tags"].latest
-    const currentVersion=getCurrentVersion()
-    if(currentVersion!==latestVersion && !currentVersion.includes("dev")){
+import(`./commands/${command}.js`).then(async (cmd) => {
+  await fetch("https://registry.npmjs.com/create-esbuild-react-app").then(res => res.json()).then(async (data) => {
+    const latestVersion = data["dist-tags"].latest
+    const currentVersion = getCurrentVersion()
+    if (currentVersion !== latestVersion && !currentVersion.includes("dev")) {
       console.log(`New version ${latestVersion} available`)
       console.log(`Run: npm i create-esbuild-react-app@${latestVersion} to install it`)
-      console.log("Please update before using.")
-      process.exit()
+      await sleep(3000)
     }
+    cmd.default(args, success, error)
   })
-  data.default(args, success, error)
 })

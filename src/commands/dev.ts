@@ -1,7 +1,7 @@
 import esbuild from 'esbuild'
 import { existsSync } from 'fs'
 import chokidar from 'chokidar'
-import { copy, readFileSync } from 'fs-extra'
+import { copy, copyFileSync, readFileSync } from 'fs-extra'
 import express from 'express'
 import { Server } from 'socket.io'
 import { join } from 'path'
@@ -10,7 +10,7 @@ const server = express()
 const httpServer = http.createServer(server)
 const io = new Server(httpServer)
 
-const config=JSON.parse(readFileSync('./cer.config.json').toString())
+const config = JSON.parse(readFileSync('./cer.config.json').toString())
 
 function build(success: Function, fail: Function) {
   esbuild
@@ -21,6 +21,8 @@ function build(success: Function, fail: Function) {
       outfile: './.cer/index.js',
       platform: 'browser',
       logLevel: 'warning',
+      format: "esm",
+
     })
     .then(() => {
       success()
@@ -43,13 +45,13 @@ export default function (args: string[]) {
 
   server.use((req, res) => {
     if (req.url == '/') {
-      res.sendFile(join(__dirname, '../../', 'dev.html'))
+      res.sendFile(join(process.cwd(), '.cer', "dev.html"))
       return
     }
     if (isFile(req.url)) {
       res.sendFile(join(process.cwd(), '.cer', req.url))
     } else {
-      res.sendFile(join(__dirname, '../../', 'dev.html'))
+      res.sendFile(join(process.cwd(), '.cer', "dev.html"))
     }
   })
 
@@ -59,7 +61,7 @@ export default function (args: string[]) {
     () => {
       console.log('App built')
     },
-    (e: string) => {}
+    (e: string) => { }
   )
   if (existsSync('./public')) {
     copy('./public', './.cer')
@@ -68,8 +70,9 @@ export default function (args: string[]) {
     console.clear()
     console.log('File change detected. Rebuilding app')
     console.log(`Url: http://localhost:${process.env.PORT || 3000}`)
-    if (existsSync('./dev.html'))
-      console.warn('Warn: dev.html is no longer used by cer. You can remove it')
+    if (!existsSync("./public/dev.html")) {
+      copyFileSync(join(__dirname, '../../', 'skel', config.template, 'public', 'dev.html'), `./public/dev.html`)
+    }
     build(
       () => {
         setTimeout(() => {
@@ -80,6 +83,12 @@ export default function (args: string[]) {
         io.emit('error', e)
       }
     )
+  })
+  chokidar.watch('./public').on('all', async () => {
+    try {
+      await copy('./public', './.cer')
+    } catch (err) { }
+    io.emit('reload')
   })
   httpServer.listen(process.env.PORT || 3000)
 }
